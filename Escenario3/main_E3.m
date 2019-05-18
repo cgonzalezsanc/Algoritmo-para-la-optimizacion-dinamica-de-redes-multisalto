@@ -6,23 +6,23 @@
 
 clear all; close all;
 
-%% Parámetros variables de la simulación
+%% Parï¿½metros variables de la simulaciï¿½n
 
 isDistr = 0;         % Use distributed algorithm
 isBatt = 0;          % Use batteries algorithm
 
 % Simulation parameters
-showFig = 0;        % Mostrar figuras (asociadas a las baterías)
-n_sim = 20;         % Número de simulaciones
-storeResults = 0;   % Guardar resultados de la simulación
-saveNet = 0;        % Guardar la red creada
+showFig = 0;        % Mostrar figuras (asociadas a las baterï¿½as)
+n_sim = 20;         % Nï¿½mero de simulaciones
+storeResults = 0;   % Guardar resultados de la simulaciï¿½n
+saveNet = 1;        % Guardar la red creada
 loadNet = 0;        % Cargar una red
 
-%% Parámetros fijos de la simulación
+%% Parï¿½metros fijos de la simulaciï¿½n
 
 n_sec = 12;        % Number of total nodes
 space = [100, 100];  % Plane dimensions (meters)
-n_prim = 1;          % Número de usuarios primarios
+n_prim = 1;          % Nï¿½mero de usuarios primarios
 n_interf_links = 2;  % Usuarios que causan interferencia a los primarios
 
 % Load net
@@ -56,9 +56,9 @@ dest_flows = [1; 5; 9];  % Destino de cada flujo
 n_flows = length(dest_flows);
 
 % Battery and physical parameters
-Batt_cap =  10 * ones(n_sec,1);                % Capacidad máxima de las baterías
-Batt_init = Batt_cap/2 + zeros(n_sec,1);       % Estado inicial de las baterías
-P_max =     1 + zeros(n_sec,1);                % Potencia máxima a transmitir
+Batt_cap =  10 * ones(n_sec,1);                % Capacidad mï¿½xima de las baterï¿½as
+Batt_init = Batt_cap/2 + zeros(n_sec,1);       % Estado inicial de las baterï¿½as
+P_max =     1 + zeros(n_sec,1);                % Potencia mï¿½xima a transmitir
 Noises =    1e-10 + zeros(n_sec,n_sec);      % Ruido en cada nodo
 
 % Energy distribution parameters
@@ -76,31 +76,31 @@ solar_param = struct('H',1600,...    % Mean solar irradiation (kWh/m^2)
 
 % Time interval
 t = 1;                      % Paso de tiempo (en segundos)              
-total_duration = 2500;      % Duración de cada simulación
+total_duration = 2500;      % Duraciï¿½n de cada simulaciï¿½n
 
 % Primary users parameters
 Active_s = zeros(n_sec,1) + 1;            % Nodos secundarios activos
-Average_prim = zeros(n_prim, 1) + 1; % Posibilidad de transmisión de cada usuario primario
-Max_Interference = 1e-2;                    % Interferencia máxima
+Average_prim = zeros(n_prim, 1) + 1; % Posibilidad de transmisiï¿½n de cada usuario primario
+Max_Interference = 1e-2;                    % Interferencia mï¿½xima
 
 % Lagrangian multipliers
 if isBatt
     pass_ro = 0.025;                % Paso del multiplicador asociado al enrutado
-    pass_pi = 0.25/Batt_cap(1);     % Paso del multiplicador asociado a baterías
+    pass_pi = 0.25/Batt_cap(1);     % Paso del multiplicador asociado a baterï¿½as
     pass_th = 0.05;                 % Paso del multiplicador asociado a interferencia
-    ro_init = 0.25;                 % Inicialización de ro
-    pi_init = pass_pi*Batt_init;    % Inicialización de pi
-    th_init = 0;                    % Inicialización de th
+    ro_init = 0.25;                 % Inicializaciï¿½n de ro
+    pi_init = pass_pi*Batt_init;    % Inicializaciï¿½n de pi
+    th_init = 0;                    % Inicializaciï¿½n de th
 else
     pass_ro = 0.025;                % Paso del multiplicador asociado al enrutado
-    pass_pi = 0.025;                % Paso del multiplicador asociado a baterías
+    pass_pi = 0.025;                % Paso del multiplicador asociado a baterï¿½as
     pass_th = 0.05;                 % Paso del multiplicador asociado a interferencia
-    ro_init = 0.25;                 % Inicialización de ro
-    pi_init = 0.25;                 % Inicialización de pi
-    th_init = 0;                    % Inicialización de th
+    ro_init = 0.25;                 % Inicializaciï¿½n de ro
+    pi_init = 0.25;                 % Inicializaciï¿½n de pi
+    th_init = 0;                    % Inicializaciï¿½n de th
 end
 
-%% Generación de la estructura para la simulación
+%% Generaciï¿½n de la estructura para la simulaciï¿½n
 
 sim = struct('n_nodes',n_sec,...
              'links_norm',links_norm,...
@@ -143,7 +143,7 @@ J = zeros(n_sim);
 
 for n = 1:n_sim
     n
-    % Ejecución
+    % Ejecuciï¿½n
     [mean_rij(:,:,:,n), a(:,:,n), p(:,n), Opt(n), V(n), J(n), C(n)] = sim_alg(sim, isDistr, isBatt, showFig);
     x=1;
 end

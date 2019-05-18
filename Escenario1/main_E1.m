@@ -1,30 +1,30 @@
  %% Programa principal para lanzar las simulaciones
-% Escenario 1: Modelo de red distribuido donde la posición de los usuarios
-% sigue un proceso de Poisson con distribución uniforme.
+% Escenario 1: Modelo de red distribuido donde la posiciï¿½n de los usuarios
+% sigue un proceso de Poisson con distribuciï¿½n uniforme.
 
 clear all; close all;
 
-%% Parámetros que definen el tipo de simulación
+%% Parï¿½metros que definen el tipo de simulaciï¿½n
 
 % Algoritmos usados
-isDistr = 2;         % Use distributed algorithm
-isBatt = 0;          % Use batteries algorithm
+isDistr = 1;         % Use distributed algorithm
+isBatt = 1;          % Use batteries algorithm
 
 % Variables para controlar las simulaciones
-showFig = 0;         % Mostrar figuras (asociadas a las baterías)
-n_sim = 2;           % Número de simulaciones
-storeResults = 0;    % Guardar resultados de la simulación
-saveNet = 0;         % Guardar la red creada
+showFig = 1;         % Mostrar figuras (asociadas a las baterï¿½as)
+n_sim = 2;           % Nï¿½mero de simulaciones
+storeResults = 1;    % Guardar resultados de la simulaciï¿½n
+saveNet = 1;         % Guardar la red creada
 loadNet = 0;         % Cargar una red
 
 %% Escenario de red
 
-% Parámetros del escenario
-n_sec = 5;         % Number of total nodes
+% Parï¿½metros del escenario
+n_sec = 10;         % Number of total nodes
 linked_nodes = 2;    % Number of links of each node
 space = [100, 100];  % Plane dimensions (meters)
-n_prim = 1;          % Número de usuarios primarios
-n_interf_links = 1;   % Usuarios que causan interferencia a los primarios
+n_prim = 2;          % Nï¿½mero de usuarios primarios
+n_interf_links = 2;   % Usuarios que causan interferencia a los primarios
 
 % Load net
 if loadNet
@@ -50,7 +50,7 @@ end
 
 % Time interval
 t = 1;                      % Tiempo total(en segundos)              
-total_duration = 2500;      % Duración de cada simulación
+total_duration = 2500;      % Duraciï¿½n de cada simulaciï¿½n
 
 % Flow parameters
 n_flows = 3;
@@ -58,8 +58,8 @@ dest_flows = [2; 3; 4];  % Destino de cada flujo
 
 % Primary users parameters
 Active_s = zeros(n_sec,1) + 1;            % Nodos secundarios activos
-Average_prim = zeros(n_prim, 1) + 1;        % Posibilidad de transmisión de cada usuario primario
-Max_Interference = 1e-2;                    % Interferencia máxima
+Average_prim = zeros(n_prim, 1) + 1;        % Posibilidad de transmisiï¿½n de cada usuario primario
+Max_Interference = 1e-2;                    % Interferencia mï¿½xima
 
 %% Distributed parameters
 
@@ -69,10 +69,10 @@ d = 0.02;
 
 %% Battery and EH parameters
 
-Batt_cap =  10 * ones(n_sec,1);                % Capacidad máxima de las baterías
-Batt_init = Batt_cap/2 + zeros(n_sec,1);       % Estado inicial de las baterías
-P_max =     1 + zeros(n_sec,1);                % Potencia máxima a transmitir
-Noises =    1e-10 + zeros(n_sec,n_sec);      % Ruido en cada nodo
+Batt_cap =  10 * ones(n_sec,1);                 % Capacidad mï¿½xima de las baterï¿½as
+Batt_init = Batt_cap/2 + zeros(n_sec,1);        % Estado inicial de las baterï¿½as
+P_max =     1 + zeros(n_sec,1);                 % Potencia mï¿½xima a transmitir
+Noises =    1e-10 + zeros(n_sec,n_sec);         % Ruido en cada nodo
 
 % Energy distribution parameters
 cost_avg = 0.18;                     % Average cost of operator's energy
@@ -91,21 +91,21 @@ solar_param = struct('H',1600,...    % Mean solar irradiation (kWh/m^2)
 
 if isBatt
     pass_ro = 0.025;                % Paso del multiplicador asociado al enrutado
-    pass_pi = 0.25/Batt_cap(1);     % Paso del multiplicador asociado a baterías
+    pass_pi = 0.25/Batt_cap(1);     % Paso del multiplicador asociado a baterï¿½as
     pass_th = 0.05;                 % Paso del multiplicador asociado a interferencia
-    ro_init = 0.25;                 % Inicialización de ro
-    pi_init = pass_pi*Batt_init;    % Inicialización de pi
-    th_init = 0;                    % Inicialización de th
+    ro_init = 0.25;                 % Inicializaciï¿½n de ro
+    pi_init = pass_pi*Batt_init;    % Inicializaciï¿½n de pi
+    th_init = 0;                    % Inicializaciï¿½n de th
 else
     pass_ro = 0.025;                % Paso del multiplicador asociado al enrutado
-    pass_pi = 0.025;                % Paso del multiplicador asociado a baterías
+    pass_pi = 0.025;                % Paso del multiplicador asociado a baterï¿½as
     pass_th = 0.05;                 % Paso del multiplicador asociado a interferencia
-    ro_init = 0.25;                 % Inicialización de ro
-    pi_init = 0.25;                 % Inicialización de pi
-    th_init = 0;                    % Inicialización de th
+    ro_init = 0.25;                 % Inicializaciï¿½n de ro
+    pi_init = 0.25;                 % Inicializaciï¿½n de pi
+    th_init = 0;                    % Inicializaciï¿½n de th
 end
 
-%% Generación de la estructura para la simulación
+%% Generaciï¿½n de la estructura para la simulaciï¿½n
 
 sim = struct('n_nodes',n_sec,...
              'links_norm',links_norm,...
@@ -148,7 +148,7 @@ J = zeros(n_sim);
 
 for n = 1:n_sim
     n
-    % Ejecución
+    % Ejecuciï¿½n
     [mean_rij(:,:,:,n), a(:,:,n), p(:,n), Opt(n), V(n), J(n), C(n)] = sim_alg(sim, isDistr, isBatt, showFig);
     x=1;
 end

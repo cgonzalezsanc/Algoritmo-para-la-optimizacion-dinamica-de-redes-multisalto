@@ -44,7 +44,7 @@ dest_flows = sim.dest_flows;
 %------------------------------------
 
 % Noise parameters
-Sigma=200;
+Sigma=2;
 Error=0;
 Error_G=0;
 window=0;

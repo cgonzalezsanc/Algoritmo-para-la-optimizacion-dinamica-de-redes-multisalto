@@ -20,7 +20,7 @@ for i = 1:length(r)
     w_i = -1*phi(r(i),c(i));
     % Get link index
     link_idx = find(links_sets(:,1)==r(i) & links_sets(:,2)==c(i));
-    % Assign this weight to weigth matrix
+    % Assign this weight to weight matrix
     w(link_idx) = w_i;
 end
 

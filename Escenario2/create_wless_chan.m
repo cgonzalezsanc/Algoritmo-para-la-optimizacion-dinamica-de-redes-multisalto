@@ -12,8 +12,10 @@ if (mod(t, it) ~= 0)
     H = [];
     return;
 end;
+
+G = 10;
     
 Points = t/it;
-H = (randn(1, Points)+ 1i.* randn(1, Points)) * sqrt(Sigma/2) * sqrt(1/d^2);
+H = (randn(1, Points)+ 1i.* randn(1, Points)) * sqrt(G*Sigma/2) * sqrt(1/d^2);
 
 end
